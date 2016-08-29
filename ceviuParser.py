@@ -4,9 +4,9 @@ import os, re
 import rake
 import io
 
-job_platform = 'apinfo'
+job_platform = 'ceviu'
 
-JOB_FOLDER = "./%s/jobs" % job_platform
+JOB_FOLDER = "./jobs/%s" % job_platform
 
 
 def main():
