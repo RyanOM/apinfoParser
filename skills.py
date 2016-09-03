@@ -124,6 +124,13 @@ def print_counter(counter):
     for word, freq in counter.most_common():
         print("%d %s" % (freq, word))
 
+def print_histogram(skill, histogram):
+    # Sort histogram items
+    sorted_items = sorted(histogram.items(), key = lambda e: e[0])
+    print("# %s" % skill)
+    for month, count in sorted_items:
+        print("%s %s" % (month, count))
+
 # "09/06/16" -> "06/16"
 def job_month(job_date):
     day, month, year = job_date.split('/', 3)
@@ -141,13 +148,11 @@ def skills_histograms():
             histogram[skill][month] = histogram[skill][month] + 1
     return histogram
 
-def main_java():
+def main_all_histograms():
     histograms = skills_histograms()
     for skill, histogram in histograms.items():
-        print("# %s" % skill)
-        for month, count in histogram.items():
-            print("%s %s" % (month, count))
-        print()
+        print_histogram(skill, histogram)
+        print("")
 
 def main_all_skills():
     title_skills = flatten([
@@ -158,7 +163,7 @@ def main_all_skills():
     print_counter(counter)
 
 def main():
-    main_java()
+    main_all_histograms()
 
 if __name__ == '__main__':
     main()
