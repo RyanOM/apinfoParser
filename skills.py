@@ -13,13 +13,20 @@ SKILLS = {
 
     'ruby': ['rails'],
 
-    'javascript': ['angular', 'node.js', 'nodejs'],
+    'javascript': ['angular', 'nodejs'],
 
     'databases': ['oracle', 'sql', 'postgres', 'mysql', 'DBA'],
 
     'cloud computing': ['AWS', 'azure'],
 
     'big data': ['hadoop', 'spark'],
+}
+
+ALIASES = {
+    'node.js': 'nodejs',
+    'dotnet': '.net',
+    'ruby on rails': 'rails',
+    'java script': 'javascript',
 }
 
 # Set of all skills/subskills
@@ -67,13 +74,31 @@ def word_to_skills(word):
     # Is a parent skill / category
     return [word]
 
+def unalias(word):
+    return ALIASES.get(word, word)
+
+# trigrams returns a list
+def trigrams(words):
+    n = len(words)
+    for idx, word in enumerate(words):
+        bigram = ""
+        if idx+1 < n:
+            bigram = words[idx+1]
+        trigram = ""
+        if idx+2 < n:
+            trigram = words[idx+2]
+        yield word, bigram, trigram
+
 # skills returns a list of skills and subskills that appear in a given paragraph
 def skills(paragraph):
     words = text_to_words(paragraph)
-    return flatten([
-        word_to_skills(word)
-        for word in words
-    ])
+    skills = []
+    for word, bigram, trigram in trigrams(words):
+        w = word_to_skills(unalias(word))
+        b = word_to_skills(unalias(bigram))
+        t = word_to_skills(unalias(trigram))
+        skills.extend([w, b, t])
+    return flatten(skills)
 
 ##
 # JSON stuff
