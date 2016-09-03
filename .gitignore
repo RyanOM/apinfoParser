@@ -91,3 +91,7 @@ ENV/
 
 # Ignore HTML files
 jobs/*
+
+# Ignore extracted JSON
+/json/
+/__MACOSX/
